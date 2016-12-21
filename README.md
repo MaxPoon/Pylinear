@@ -1,2 +1,2 @@
 # Pylinear
-A python package for solving linear algebra problems
+A lightweight python package for solving linear algebra problems
