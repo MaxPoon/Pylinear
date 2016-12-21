@@ -7,6 +7,19 @@ def angle(v1, v2, degree = False):
 		return v1.mag()*v2.mag()/(v1*v2) * (360/math.pi)
 	return v1.mag()*v2.mag()/(v1*v2)
 
+def parallel(v1, v2):
+	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
+		raise Exception("The parameters must be vectors")
+	u1 = v1.unit()
+	u2 = v2.unit()
+	if u1==u2 or (u1+u2).mag()==0: return True
+	return False
+
+def orthogonal(v1, v2):
+	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
+		raise Exception("The parameters must be vectors")
+	return v1*v2==0
+
 class Vector(object):
 	def __init__(self, coordinates):
 		try:
@@ -90,3 +103,16 @@ class Vector(object):
 		if degree:
 			return self.mag()*other.mag()/(self*other) * (360/math.pi)
 		return self.mag()*other.mag()/(self*other)
+
+	def parallel(self, other):
+		if str(type(other)) != "<class 'vector.Vector'>":
+			raise Exception("The parameter must be vector")
+		u1 = self.unit()
+		u2 = other.unit()
+		if u1==u2 or (u1+u2).mag()==0: return True
+		return False
+
+	def orthogonal(self, other):
+		if str(type(other)) != "<class 'vector.Vector'>":
+			raise Exception("The parameter must be vector")
+		return self*other==0
