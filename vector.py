@@ -15,10 +15,10 @@ def parallel(v1, v2):
 	if u1==u2 or (u1+u2).mag()==0: return True
 	return False
 
-def orthogonal(v1, v2):
+def orthogonal(v1, v2, error=0.0001):
 	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
 		raise Exception("The parameters must be vectors")
-	return v1*v2==0
+	return v1*v2<=error
 
 class Vector(object):
 	def __init__(self, coordinates):
@@ -90,6 +90,19 @@ class Vector(object):
 			newList = [self.coordinates[i]/other for i in range(self.dimension)]
 			return Vector(newList)
 
+	def __pow__(self, other):
+		if str(type(other)) == "<class 'vector.Vector'>":
+			try:
+				assert self.dimension == 3 and other.dimension==3
+			except Exception:
+				raise AssertionError("The length of the vectors must be the 3")
+			x1,y1,z1 = self.coordinates
+			x2,y2,z2 = other.coordinates
+			return Vector([y1*z2-y2*z1, z1*x2-z2*x1, x1*y2-x2*y1])
+
+		else:
+			raise TypeError("The parameter must be vector")
+
 	def mag(self):
 		return sum(n**2 for n in self.coordinates)**0.5
 
@@ -112,7 +125,12 @@ class Vector(object):
 		if u1==u2 or (u1+u2).mag()==0: return True
 		return False
 
-	def orthogonal(self, other):
+	def orthogonal(self, other, error=0.0001):
 		if str(type(other)) != "<class 'vector.Vector'>":
 			raise Exception("The parameter must be vector")
-		return self*other==0
+		return self*other <= error
+
+	def projectTo(self, other):
+		if str(type(other)) != "<class 'vector.Vector'>":
+			raise Exception("The parameter must be vector")
+		return self * other.unit()
