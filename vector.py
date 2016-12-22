@@ -1,26 +1,5 @@
 import math
 
-def angle(v1, v2, degree = False):
-	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
-		raise Exception("The parameters must be vectors")
-	a = math.acos(v1.sim(v2))
-	if degree:
-		return a * (360/math.pi)
-	return a
-
-def parallel(v1, v2):
-	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
-		raise Exception("The parameters must be vectors")
-	u1 = v1.unit()
-	u2 = v2.unit()
-	if u1==u2 or (u1+u2).mag()==0: return True
-	return False
-
-def orthogonal(v1, v2, error=0.0001):
-	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
-		raise Exception("The parameters must be vectors")
-	return v1*v2<=error
-
 class Vector(object):
 	def __init__(self, coordinates):
 		try:
