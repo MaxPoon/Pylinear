@@ -14,20 +14,18 @@ class Line(object):
 		if not normal_vector:
 			all_zeros = [0]*self.dimension
 			normal_vector = Vector(all_zeros)
-		try:
-			assert len(normal_vector) == 2
-		except AssertionError:
-			raise AssertionError("The normal vector should be 2-D")
 
+		if type(normal_vector)==list or type(normal_vector)==tuple:
+			normal_vector = Vector(normal_vector)
 
-		self.normal_vector = Vector(normal_vector)
+		self.normal_vector = normal_vector
 
 		if not constant_term:
 			constant_term = 0
 		self.constant_term = constant_term
 
 		try:
-			assert not (normal_vector[0]==0 and normal_vector[1]==0 and constant_term!=0)
+			assert not (normal_vector.coordinates[0]==0 and normal_vector.coordinates[1]==0 and constant_term!=0)
 		except AssertionError:
 			raise AssertionError("The line does not exist")
 
@@ -87,9 +85,9 @@ class Line(object):
 		n = self.normal_vector
 
 		try:
-			initial_index = Line.first_nonzero_index(n)
-			terms = [write_coefficient(n[i], is_initial_term=(i==initial_index)) + 'x_{}'.format(i+1)
-					 for i in range(self.dimension) if round(n[i], num_decimal_places) != 0]
+			initial_index = Line.first_nonzero_index(n.coordinates)
+			terms = [write_coefficient(n.coordinates[i], is_initial_term=(i==initial_index)) + 'x_{}'.format(i+1)
+					 for i in range(self.dimension) if round(n.coordinates[i], num_decimal_places) != 0]
 			output = ' '.join(terms)
 
 		except Exception as e:
