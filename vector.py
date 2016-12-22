@@ -3,9 +3,10 @@ import math
 def angle(v1, v2, degree = False):
 	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
 		raise Exception("The parameters must be vectors")
+	a = math.acos(v1.sim(v2))
 	if degree:
-		return v1.mag()*v2.mag()/(v1*v2) * (360/math.pi)
-	return v1.mag()*v2.mag()/(v1*v2)
+		return a * (360/math.pi)
+	return a
 
 def parallel(v1, v2):
 	if str(type(v1)) != "<class 'vector.Vector'>" or str(type(v2)) != "<class 'vector.Vector'>":
@@ -110,12 +111,18 @@ class Vector(object):
 		m = self.mag()
 		return self / m
 
+	def sim(self, other):
+		if str(type(other)) != "<class 'vector.Vector'>":
+			raise Exception("The parameter must be vector")			
+		return (self*other)/(self.mag()*other.mag())
+
 	def angle(self, other, degree = False):
 		if str(type(other)) != "<class 'vector.Vector'>":
 			raise Exception("The parameter must be vector")
+		a = math.acos(self.sim(other))
 		if degree:
-			return self.mag()*other.mag()/(self*other) * (360/math.pi)
-		return self.mag()*other.mag()/(self*other)
+			return a * (360/math.pi)
+		return a
 
 	def parallel(self, other):
 		if str(type(other)) != "<class 'vector.Vector'>":
@@ -133,4 +140,5 @@ class Vector(object):
 	def projectTo(self, other):
 		if str(type(other)) != "<class 'vector.Vector'>":
 			raise Exception("The parameter must be vector")
-		return self * other.unit()
+		u = other.unit()
+		return u * (self * u)
