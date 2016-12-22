@@ -12,7 +12,7 @@ class Line(object):
 	def __init__(self, normal_vector=None, constant_term=None):
 		self.dimension = 2
 		if not normal_vector:
-			all_zeros = ['0']*self.dimension
+			all_zeros = [0]*self.dimension
 			normal_vector = Vector(all_zeros)
 		try:
 			assert len(normal_vector) == 2
