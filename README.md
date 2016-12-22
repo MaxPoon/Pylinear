@@ -167,8 +167,9 @@ True
 Example:
 
 ```python
->>> p1 = Plane([1,2,3],4)
->>> p2 = Plane([2,4,6],8)
+import plane
+>>> p1 = plane.Plane([1,2,3],4)
+>>> p2 = plane.Plane([2,4,6],8)
 ```
 
 #### Checking for parallelism: Plane.parallel(Plane)
