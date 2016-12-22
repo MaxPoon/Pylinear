@@ -23,55 +23,84 @@ class Vector(object):
 		return self.coordinates == v.coordinates
 
 	def __add__(self, other):
-		if str(type(other)) == "<class 'vector.Vector'>":
+		if type(other) == Vector:
 			try:
 				assert self.dimension == other.dimension
 			except Exception:
 				raise AssertionError("The length of the vectors must be the same")
 			newList = [self.coordinates[i]+other.coordinates[i] for i in range(self.dimension)]
 			return Vector(newList)
-		if str(type(other)) == "<class 'int'>" or str(type(other)) == "<class 'float'>":
+		if type(other) == int or type(other) == float:
+			newList = [self.coordinates[i]+other for i in range(self.dimension)]
+			return Vector(newList)
+
+	def __radd__(self, other):
+		if type(other) == Vector:
+			try:
+				assert self.dimension == other.dimension
+			except Exception:
+				raise AssertionError("The length of the vectors must be the same")
+			newList = [self.coordinates[i]+other.coordinates[i] for i in range(self.dimension)]
+			return Vector(newList)
+		if type(other) == int or type(other) == float:
 			newList = [self.coordinates[i]+other for i in range(self.dimension)]
 			return Vector(newList)
 
 	def __sub__(self, other):
-		if str(type(other)) == "<class 'vector.Vector'>":
+		if type(other) == Vector:
 			try:
 				assert self.dimension == other.dimension
 			except Exception:
 				raise AssertionError("The length of the vectors must be the same")
 			newList = [self.coordinates[i]-other.coordinates[i] for i in range(self.dimension)]
 			return Vector(newList)
-		if str(type(other)) == "<class 'int'>" or str(type(other)) == "<class 'float'>":
+		if type(other) == int or type(other) == float:
 			newList = [self.coordinates[i]-other for i in range(self.dimension)]
 			return Vector(newList)
 
+	def __rsub__(self, other):
+		if type(other) == int or type(other) == float:
+			newList = [other - self.coordinates[i] for i in range(self.dimension)]
+			return Vector(newList)
+
 	def __mul__(self, other):
-		if str(type(other)) == "<class 'vector.Vector'>":
+		if type(other) == Vector:
 			try:
 				assert self.dimension == other.dimension
 			except Exception:
 				raise AssertionError("The length of the vectors must be the same")
 			newList = [self.coordinates[i]*other.coordinates[i] for i in range(self.dimension)]
 			return sum(newList)
-		if str(type(other)) == "<class 'int'>" or str(type(other)) == "<class 'float'>":
+		if type(other) == int or type(other) == float:
+			newList = [self.coordinates[i]*other for i in range(self.dimension)]
+			return Vector(newList)
+
+	def __rmul__(self, other):
+		if type(other) == Vector:
+			try:
+				assert self.dimension == other.dimension
+			except Exception:
+				raise AssertionError("The length of the vectors must be the same")
+			newList = [self.coordinates[i]*other.coordinates[i] for i in range(self.dimension)]
+			return sum(newList)
+		if type(other) == int or type(other) == float:
 			newList = [self.coordinates[i]*other for i in range(self.dimension)]
 			return Vector(newList)
 
 	def __truediv__(self, other):
-		if str(type(other)) == "<class 'vector.Vector'>":
+		if type(other) == Vector:
 			try:
 				assert self.dimension == other.dimension
 			except Exception:
 				raise AssertionError("The length of the vectors must be the same")
 			newList = [self.coordinates[i]/other.coordinates[i] for i in range(self.dimension)]
 			return Vector(newList)
-		if str(type(other)) == "<class 'int'>" or str(type(other)) == "<class 'float'>":
+		if type(other) == int or type(other) == float:
 			newList = [self.coordinates[i]/other for i in range(self.dimension)]
 			return Vector(newList)
 
 	def __pow__(self, other):
-		if str(type(other)) == "<class 'vector.Vector'>":
+		if type(other) == Vector:
 			try:
 				assert self.dimension == 3 and other.dimension==3
 			except Exception:
@@ -88,15 +117,17 @@ class Vector(object):
 
 	def unit(self):
 		m = self.mag()
+		if m == 0:
+			return self
 		return self / m
 
 	def sim(self, other):
-		if str(type(other)) != "<class 'vector.Vector'>":
+		if type(other) != Vector:
 			raise Exception("The parameter must be vector")			
 		return (self*other)/(self.mag()*other.mag())
 
 	def angle(self, other, degree = False):
-		if str(type(other)) != "<class 'vector.Vector'>":
+		if type(other) != Vector:
 			raise Exception("The parameter must be vector")
 		a = math.acos(self.sim(other))
 		if degree:
@@ -104,7 +135,7 @@ class Vector(object):
 		return a
 
 	def parallel(self, other):
-		if str(type(other)) != "<class 'vector.Vector'>":
+		if type(other) != Vector:
 			raise Exception("The parameter must be vector")
 		u1 = self.unit()
 		u2 = other.unit()
@@ -112,12 +143,12 @@ class Vector(object):
 		return False
 
 	def orthogonal(self, other, error=0.0001):
-		if str(type(other)) != "<class 'vector.Vector'>":
+		if type(other) != Vector:
 			raise Exception("The parameter must be vector")
 		return self*other <= error
 
 	def projectTo(self, other):
-		if str(type(other)) != "<class 'vector.Vector'>":
+		if type(other) != Vector:
 			raise Exception("The parameter must be vector")
 		u = other.unit()
 		return u * (self * u)

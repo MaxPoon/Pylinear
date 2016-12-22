@@ -3,6 +3,8 @@ A lightweight python package for solving linear algebra problems
 
 ## Usage
 
+### Vector
+
 #### Create and print vectors:
 
 Example:
