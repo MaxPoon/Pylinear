@@ -1,6 +1,6 @@
 from decimal import Decimal, getcontext
 
-from vector import Vector
+from Pylinear.vector import Vector
 
 getcontext().prec = 30
 

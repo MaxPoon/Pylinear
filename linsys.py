@@ -1,15 +1,15 @@
 from decimal import Decimal, getcontext
 from copy import deepcopy
 
-from vector import Vector
-from plane import Plane
+from Pylinear.vector import Vector
+from Pylinear.plane import Plane
 
 getcontext().prec = 30
 
 
 class LinearSystem(object):
 
-    ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG = 'All planes in the system should live in the same dimension'
+    ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG = 'All equations in the system should live in the same dimension'
     NO_SOLUTIONS_MSG = 'No solutions'
     INF_SOLUTIONS_MSG = 'Infinitely many solutions'
 
@@ -23,7 +23,7 @@ class LinearSystem(object):
             self.dimension = d
 
         except AssertionError:
-            raise Exception(self.ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG)
+            raise Exception(self.ALL_EQUATIONS_MUST_BE_IN_SAME_DIM_MSG)
 
 
     def swap_rows(self, row1, row2):
