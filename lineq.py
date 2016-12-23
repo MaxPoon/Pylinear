@@ -45,6 +45,16 @@ class Lineq(object):
 			new_constant = self.constant_term + other.constant_term
 			return Lineq(new_normal_vector, new_constant)
 
+	def __sub__(self, other):
+		if type(other) == Lineq:
+			try:
+				assert self.dimension == other.dimension
+			except Exception:
+				raise AssertionError("The dimensions of the equations must be the same")
+			new_normal_vector = self.normal_vector - other.normal_vector
+			new_constant = self.constant_term - other.constant_term
+			return Lineq(new_normal_vector, new_constant)
+
 	def __mul__(self, other):
 		if type(other) == int or type(other) == float:
 			new_normal_vector = self.normal_vector * other
@@ -77,7 +87,7 @@ class Lineq(object):
 		return Lineq(copiedVector, self.constant_term)
 
 	def valid(self):
-		if self.constant_term != 0: return True
+		if self.constant_term == 0: return True
 		for i in range(len(self)):
 			if self[i] != 0: return True
 		return False

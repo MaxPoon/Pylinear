@@ -10,8 +10,9 @@ A lightweight python package for solving linear algebra problems
 Example:
 
 ```python
->>> v1 = vector.Vector([1,2,3])
->>> v2 = vector.Vector([6,5,4])
+from Pylinear import Vector
+>>> v1 = Vector([1,2,3])
+>>> v2 = Vector([6,5,4])
 >>> print(v1, v2)
 Vector: (1, 2, 3) Vector: (6, 5, 4)
 ```
@@ -124,6 +125,82 @@ Example:
 >>> print(v)
 Vector: (2.1818181818181817, 1.8181818181818181, 1.4545454545454544)
 ```
+### Linear Equation:
+
+#### Initialization: Lineq(normal_vector, constant_term=0)
+
+Example:
+
+```python
+>>> from Pylinear import Lineq
+>>> l1 = Lineq([1,1],1)
+>>> l2 = Lineq([2,3],7)
+>>> l3 = Lineq([0,0],5)
+>>> print(l1)
+x_1 + x_2 = 1
+```
+
+#### Addition, subtraction, multiplication and division: +, -, *, /
+
+Example:
+
+```python
+>>> print(l1 + l2)
+3x_1 + 4x_2 = 8
+>>> print(l1-l2)
+-x_1 - 2x_2 = -6
+>>> print(3*l1)
+3x_1 + 3x_2 = 3
+>>> print(l1/3)
+0.333x_1 + 0.333x_2 = 0.333
+```
+
+#### Checking for validation: Lineq.valid()
+
+Example:
+
+```python
+>> l1.valid()
+True
+>>> l3.valid()
+False
+```
+
+### LinearSystem
+
+#### Initialization: LinearSystem(equations)
+
+Example:
+
+```python
+>>> from Pylinear import LinearSystem
+>>> s = LinearSystem([l1, l2])
+>>> print(s)
+Linear System:
+Equation 1: x_1 + x_2 = 1
+Equation 2: 2x_1 + 3x_2 = 7
+```
+
+#### Get the triangular form: LinearSystem.triangularForm()
+
+Example:
+
+```python
+>>> print(s.triangularForm())
+Linear System:
+Equation 1: x_1 + x_2 = 1
+Equation 2: x_2 = 5
+```
+
+#### Solve the system: LinearSystem.solve()
+
+Example:
+
+```python
+>>> result = s.solve()
+>>> print(result)
+[-4.0, 5.0]
+```
 
 ### Line
 
@@ -132,10 +209,10 @@ Vector: (2.1818181818181817, 1.8181818181818181, 1.4545454545454544)
 Example:
 
 ```python
->>> import line
->>> l1 = line.Line([1,2],3)
->>> l2 = line.Line([1,2],4)
->>> l3 = line.Line([2,4],6)
+>>> from Pylinear import Line
+>>> l1 = Line([1,2],3)
+>>> l2 = Line([1,2],4)
+>>> l3 = Line([2,4],6)
 
 >>> print(l1)
 x_1 + 2x_2 = 3
@@ -167,9 +244,9 @@ True
 Example:
 
 ```python
-import plane
->>> p1 = plane.Plane([1,2,3],4)
->>> p2 = plane.Plane([2,4,6],8)
+from Pylinear import Plane
+>>> p1 = Plane([1,2,3],4)
+>>> p2 = Plane([2,4,6],8)
 ```
 
 #### Checking for parallelism: Plane.parallel(Plane)
