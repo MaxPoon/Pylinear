@@ -9,9 +9,7 @@ getcontext().prec = 30
 
 class LinearSystem(object):
 
-	ALL_EQUATIONS_MUST_BE_IN_SAME_DIM_MSG = 'All equations in the system should live in the same dimension'
-	NO_SOLUTIONS_MSG = 'No solutions'
-	INF_SOLUTIONS_MSG = 'Infinitely many solutions'
+	NO_UNIQUE_SOLUTIONS_MSG = 'No unique solutions'
 
 	def __init__(self, equations):
 		try:
@@ -102,25 +100,22 @@ class LinearSystem(object):
 				copied.add_multiple_times_row_to_row(-copied[j][i], i, j)
 		return copied
 
+	def solve(self):
+		triangle = self.triangularForm()
+		if not triangle: return self.NO_UNIQUE_SOLUTIONS_MSG
+		for i in range(triangle.dimension):
+			if not triangle[i].valid(): return self.NO_UNIQUE_SOLUTIONS_MSG
+		for i in range(self.dimension-1, -1, -1):
+			for j in range(i):
+				triangle.add_multiple_times_row_to_row(-triangle[j][i], i, j)
+		result = [0] * triangle.dimension
+		for i in range(triangle.dimension):
+			result[i] = triangle[i].constant_term
+		return result
+
+
 class MyDecimal(Decimal):
 	def is_near_zero(self, eps=1e-10):
 		return abs(self) < eps
 
 
-# p0 = Plane(normal_vector=Vector(['1','1','1']), constant_term='1')
-# p1 = Plane(normal_vector=Vector(['0','1','0']), constant_term='2')
-# p2 = Plane(normal_vector=Vector(['1','1','-1']), constant_term='3')
-# p3 = Plane(normal_vector=Vector(['1','0','-2']), constant_term='2')
-
-# s = LinearSystem([p0,p1,p2,p3])
-
-# print s.indices_of_first_nonzero_terms_in_each_row()
-# print '{},{},{},{}'.format(s[0],s[1],s[2],s[3])
-# print len(s)
-# print s
-
-# s[0] = p1
-# print s
-
-# print MyDecimal('1e-9').is_near_zero()
-# print MyDecimal('1e-11').is_near_zero()
