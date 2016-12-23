@@ -121,6 +121,10 @@ class Vector(object):
 	def __setitem__(self, i, x):
 		self.coordinates[i] = x
 
+	def __deepcopy__(self):
+		copiedCoordinates = deepcopy(self.coordinates)
+		return Vector(copiedCoordinates)
+
 	def mag(self):
 		return sum(n**2 for n in self.coordinates)**0.5
 

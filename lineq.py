@@ -1,5 +1,6 @@
 from decimal import Decimal, getcontext
 from vector import Vector
+from copy import deepcopy
 getcontext().prec = 30
 
 class Lineq(object):
@@ -70,6 +71,10 @@ class Lineq(object):
 
 	def __setitem__(self, i, x):
 		self.normal_vector[i] = x
+
+	def __deepcopy__(self):
+		copiedVector = deepcopy(self.normal_vector)
+		return Lineq(copiedVector, self.constant_term)
 
 	def valid(self):
 		if self.constant_term != 0: return True

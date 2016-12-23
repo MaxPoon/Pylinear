@@ -78,6 +78,13 @@ class LinearSystem(object):
 		ret += '\n'.join(temp)
 		return ret
 
+	def __deepcopy__(self):
+		copiedEquations = []
+		for enquation in self.equations:
+			copiedEquation = deepcopy(equation)
+			copiedEquations.append(copiedEquation)
+		return LinearSystem(copiedEquations)
+
 
 class MyDecimal(Decimal):
 	def is_near_zero(self, eps=1e-10):
