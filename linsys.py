@@ -1,8 +1,8 @@
 from decimal import Decimal, getcontext
 from copy import deepcopy
 
-from vector import Vector
-from lineq import Lineq
+from Pylinear.vector import Vector
+from Pylinear.lineq import Lineq
 
 getcontext().prec = 30
 
@@ -74,17 +74,33 @@ class LinearSystem(object):
 
 	def __str__(self):
 		ret = 'Linear System:\n'
-		temp = ['Equation {}: {}'.format(i+1,p) for i,p in enumerate(self.planes)]
+		temp = ['Equation {}: {}'.format(i+1,p) for i,p in enumerate(self.equations)]
 		ret += '\n'.join(temp)
 		return ret
 
-	def __deepcopy__(self):
+	def __deepcopy__(self, memo):
 		copiedEquations = []
-		for enquation in self.equations:
+		for equation in self.equations:
 			copiedEquation = deepcopy(equation)
 			copiedEquations.append(copiedEquation)
 		return LinearSystem(copiedEquations)
 
+	def triangularForm(self):
+		if len(self) < self.dimension: return False
+		copied = deepcopy(self)
+		for i in range(self.dimension):
+			if copied[i][i]==0:
+				found = False
+				for j in range(i+1, copied.dimension):
+					if copied[j][i] != 0:
+						found = True
+						break
+				if not found: return False
+				copied.swap_rows(i, j)
+			copied[i] /= copied[i][i]
+			for j in range(i+1, copied.dimension):
+				copied.add_multiple_times_row_to_row(-copied[j][i], i, j)
+		return copied
 
 class MyDecimal(Decimal):
 	def is_near_zero(self, eps=1e-10):

@@ -1,5 +1,5 @@
 from decimal import Decimal, getcontext
-from vector import Vector
+from Pylinear.vector import Vector
 from copy import deepcopy
 getcontext().prec = 30
 
@@ -72,7 +72,7 @@ class Lineq(object):
 	def __setitem__(self, i, x):
 		self.normal_vector[i] = x
 
-	def __deepcopy__(self):
+	def __deepcopy__(self, memo):
 		copiedVector = deepcopy(self.normal_vector)
 		return Lineq(copiedVector, self.constant_term)
 

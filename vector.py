@@ -1,4 +1,5 @@
 import math
+from copy import deepcopy
 
 class Vector(object):
 	def __init__(self, coordinates):
@@ -121,7 +122,7 @@ class Vector(object):
 	def __setitem__(self, i, x):
 		self.coordinates[i] = x
 
-	def __deepcopy__(self):
+	def __deepcopy__(self, memo):
 		copiedCoordinates = deepcopy(self.coordinates)
 		return Vector(copiedCoordinates)
 
