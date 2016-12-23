@@ -3,7 +3,8 @@ A lightweight python package for solving linear algebra problems
 
 ## Installation
 pip install:
-```
+
+```sh
 sudo pip install Pylinear
 ```
 
@@ -271,4 +272,5 @@ Example:
 >>> p1 == p2
 True
 ```
-
+## Todo:
+- Add Matrix class and its methods.
