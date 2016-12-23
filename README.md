@@ -1,6 +1,12 @@
 # Pylinear
 A lightweight python package for solving linear algebra problems
 
+## Installation
+pip install:
+```
+sudo pip install Pylinear
+```
+
 ## Usage
 
 ### Vector
