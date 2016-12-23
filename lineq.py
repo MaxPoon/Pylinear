@@ -62,6 +62,21 @@ class Lineq(object):
 			new_constant = self.constant_term / other
 			return Lineq(new_normal_vector, new_constant)
 
+	def __len__(self):
+		return len(self.normal_vector)
+
+	def __getitem__(self, i):
+		return self.normal_vector[i]
+
+	def __setitem__(self, i, x):
+		self.normal_vector[i] = x
+
+	def valid(self):
+		if self.constant_term != 0: return True
+		for i in range(len(self)):
+			if self[i] != 0: return True
+		return False
+
 	def set_basepoint(self):
 		try:
 			n = self.normal_vector

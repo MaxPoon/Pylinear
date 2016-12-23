@@ -112,6 +112,15 @@ class Vector(object):
 		else:
 			raise TypeError("The parameter must be vector")
 
+	def __len__(self):
+		return len(self.coordinates)
+
+	def __getitem__(self, i):
+		return self.coordinates[i]
+
+	def __setitem__(self, i, x):
+		self.coordinates[i] = x
+
 	def mag(self):
 		return sum(n**2 for n in self.coordinates)**0.5
 

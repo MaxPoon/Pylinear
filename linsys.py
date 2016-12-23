@@ -1,15 +1,15 @@
 from decimal import Decimal, getcontext
 from copy import deepcopy
 
-from Pylinear.vector import Vector
-from Pylinear.plane import Plane
+from vector import Vector
+from lineq import Lineq
 
 getcontext().prec = 30
 
 
 class LinearSystem(object):
 
-	ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG = 'All equations in the system should live in the same dimension'
+	ALL_EQUATIONS_MUST_BE_IN_SAME_DIM_MSG = 'All equations in the system should live in the same dimension'
 	NO_SOLUTIONS_MSG = 'No solutions'
 	INF_SOLUTIONS_MSG = 'Infinitely many solutions'
 
@@ -27,14 +27,14 @@ class LinearSystem(object):
 
 
 	def swap_rows(self, row1, row2):
-		self.equations[row1], self.equations[row2] = self.equations[row2], self.equations[row1]
+		self[row1], self[row2] = self[row2], self[row1]
 
 	def multiply_coefficient_and_row(self, coefficient, row):
-		pass # add your code here
+		self[row] *= coefficient
 
 
 	def add_multiple_times_row_to_row(self, coefficient, row_to_add, row_to_be_added_to):
-		pass # add your code here
+		self[row_to_be_added_to] += coefficient * self[row_to_add]
 
 
 	def indices_of_first_nonzero_terms_in_each_row(self):
@@ -56,20 +56,20 @@ class LinearSystem(object):
 
 
 	def __len__(self):
-		return len(self.planes)
+		return len(self.equations)
 
 
 	def __getitem__(self, i):
-		return self.planes[i]
+		return self.equations[i]
 
 
 	def __setitem__(self, i, x):
 		try:
 			assert x.dimension == self.dimension
-			self.planes[i] = x
+			self.equations[i] = x
 
 		except AssertionError:
-			raise Exception(self.ALL_PLANES_MUST_BE_IN_SAME_DIM_MSG)
+			raise Exception(self.ALL_EQUATIONS_MUST_BE_IN_SAME_DIM_MSG)
 
 
 	def __str__(self):
@@ -84,20 +84,20 @@ class MyDecimal(Decimal):
 		return abs(self) < eps
 
 
-p0 = Plane(normal_vector=Vector(['1','1','1']), constant_term='1')
-p1 = Plane(normal_vector=Vector(['0','1','0']), constant_term='2')
-p2 = Plane(normal_vector=Vector(['1','1','-1']), constant_term='3')
-p3 = Plane(normal_vector=Vector(['1','0','-2']), constant_term='2')
+# p0 = Plane(normal_vector=Vector(['1','1','1']), constant_term='1')
+# p1 = Plane(normal_vector=Vector(['0','1','0']), constant_term='2')
+# p2 = Plane(normal_vector=Vector(['1','1','-1']), constant_term='3')
+# p3 = Plane(normal_vector=Vector(['1','0','-2']), constant_term='2')
 
-s = LinearSystem([p0,p1,p2,p3])
+# s = LinearSystem([p0,p1,p2,p3])
 
-print s.indices_of_first_nonzero_terms_in_each_row()
-print '{},{},{},{}'.format(s[0],s[1],s[2],s[3])
-print len(s)
-print s
+# print s.indices_of_first_nonzero_terms_in_each_row()
+# print '{},{},{},{}'.format(s[0],s[1],s[2],s[3])
+# print len(s)
+# print s
 
-s[0] = p1
-print s
+# s[0] = p1
+# print s
 
-print MyDecimal('1e-9').is_near_zero()
-print MyDecimal('1e-11').is_near_zero()
+# print MyDecimal('1e-9').is_near_zero()
+# print MyDecimal('1e-11').is_near_zero()
