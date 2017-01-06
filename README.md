@@ -274,3 +274,4 @@ True
 ```
 ## Todo:
 - Add Matrix class and its methods.
+- Add Optimization class and the methods to solve linear programming problem.
